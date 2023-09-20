@@ -4,17 +4,66 @@ Project: jackson-databind
 === Releases === 
 ------------------------------------------------------------------------
 
-2.14.0 (not yet released)
+2.14.4 (not yet released)
 
+#3882: Error in creating nested `ArrayNode`s with `JsonNode.withArray()`
+ (reported by @SaiKrishna369)
+#4121: Preserve the original component type in merging to an array
+ (contributed by Yury M)
+
+2.14.3 (05-May-2023)
+
+#3784: `PrimitiveArrayDeserializers$ByteDeser.deserialize` ignores
+  `DeserializationProblemHandler` for invalid Base64 content
+#3837: Set transformer factory attributes to improve protection against XXE
+ (contributed by @pjfanning)
+
+2.14.2 (28-Jan-2023)
+
+#1751: `@JsonTypeInfo` does not work if the Type Id is an Integer value
+ (reported by @marvin-we)
+#3063: `@JsonValue` fails for Java Record
+ (reported by Gili T)
+#3699: Allow custom `JsonNode` implementations
+ (contributed by Philippe M)
+#3711: Enum polymorphism not working correctly with DEDUCTION
+ (reported by @smilep)
+#3741: `StdDelegatingDeserializer` ignores `nullValue` of `_delegateDeserializer`.
+
+2.14.1 (21-Nov-2022)
+
+#3655: `Enum` values can not be read from single-element array even with
+  `DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS`
+ (reported by Andrej M)
+ (fix contributed by Jonas K)
+#3665: `ObjectMapper` default heap consumption increased significantly from 2.13.x to 2.14.0
+ (reported by Moritz H)
+ (fix contributed by Jonas K)
+
+2.14.0 (05-Nov-2022)
+
+#1980: Add method(s) in `JsonNode` that works like combination of `at()`
+  and `with()`: `withObject(...)` and `withArray(...)`
 #2541: Cannot merge polymorphic objects
  (reported by Matthew A)
  (fix contributed by James W)
+#3013: Allow disabling Integer to String coercion via `CoercionConfig`
+ (reported by @emilkostadinov)
+ (fix contributed by Jordi O-A)
+#3212: Add method `ObjectMapper.copyWith(JsonFactory)`
+ (requested by @quaff)
+ (contributed by Felix V)
+#3311: Add serializer-cache size limit to avoid Metaspace issues from
+  caching Serializers
+ (requested by mcolemanNOW@github)
 #3338: `configOverride.setMergeable(false)` not supported by `ArrayNode`
  (requested by Ernst-Jan vdL)
 #3357: `@JsonIgnore` does not if together with `@JsonProperty` or `@JsonFormat`
  (reported by lizongbo@github)
 #3373: Change `TypeSerializerBase` to skip `generator.writeTypePrefix()`
   for `null` typeId
+#3394: Allow use of `JsonNode` field for `@JsonAnySetter`
+ (requested by @sixcorners)
 #3405: Create DataTypeFeature abstraction (for JSTEP-7) with placeholder features
 #3417: Allow (de)serializing records using Bean(De)SerializerModifier even when
   reflection is unavailable
@@ -28,15 +77,73 @@ Project: jackson-databind
  (contributed by Jan J)
 #3447: Deeply nested JsonNode throws StackOverflowError for toString()
  (reported by Deniz H)
+#3475: Support use of fast double parse
+ (contributed by @pjfanning)
 #3476: Implement `JsonNodeFeature.WRITE_NULL_PROPERTIES` to allow skipping
   JSON `null` values on writing
+#3481: Filter method only got called once if the field is null when using
+  `@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = SomeFieldFilter.class)`
+ (contributed by AmiDavidW@github)
+#3484: Update `MapDeserializer` to support `StreamReadCapability.DUPLICATE_PROPERTIES`
 #3497: Deserialization of Throwables with PropertyNamingStrategy does not work
+#3500: Add optional explicit `JsonSubTypes` repeated names check
+ (contributed by Igor S)
+#3503: `StdDeserializer` coerces ints to floats even if configured to fail
+ (contributed by Jordi O-A)
+#3505: Fix deduction deserializer with DefaultTypeResolverBuilder
+ (contributed by Arnaud S)
+#3528: `TokenBuffer` defaults for parser/stream-read features neither passed
+  from parser nor use real defaults
+#3530: Change LRUMap to just evict one entry when maxEntries reached
+ (contributed by @pjfanning)
+#3533: Deserialize missing value of `EXTERNAL_PROPERTY` type using
+  custom `NullValueProvider`
+#3535: Replace `JsonNode.with()` with `JsonNode.withObject()`
+#3559: Support `null`-valued `Map` fields with "any setter"
+#3568: Change `JsonNode.with(String)` and `withArray(String)` to consider
+  argument as `JsonPointer` if valid expression
+#3590: Add check in primitive value deserializers to avoid deep wrapper array
+  nesting wrt `UNWRAP_SINGLE_VALUE_ARRAYS` [CVE-2022-42003]
+#3609: Allow non-boolean return type for "is-getters" with
+  `MapperFeature.ALLOW_IS_GETTERS_FOR_NON_BOOLEAN`
+ (contributed by Richard K)
+#3613: Implement `float` and `boolean` to `String` coercion config
+ (fix contributed by Jordi O-A)
+#3624: Legacy `ALLOW_COERCION_OF_SCALARS` interacts poorly with Integer to
+  Float coercion
+ (contributed by Carter K)
+#3633: Expose `translate()` method of standard `PropertyNamingStrategy` implementations
+ (requested by Joachim D)
 
-2.13.4 (not yet released)
+2.13.5 (23-Jan-2023)
+
+#3659: Improve testing (likely via CI) to try to ensure compatibility with
+  specific Android SDKs
+#3661: Jackson 2.13 uses Class.getTypeName() that is only available on Android SDK 26
+  (with fix works on ASDK 24)
+
+2.13.4.2 (13-Oct-2022)
+
+#3627: Gradle module metadata for `2.13.4.1` references non-existent
+  jackson-bom `2.13.4.1` (instead of `2.13.4.20221012`)
+  (NOTE: root cause is [jackson-bom#52])
+
+2.13.4.1 (12-Oct-2022)
+
+#3590: Add check in primitive value deserializers to avoid deep wrapper array
+  nesting wrt `UNWRAP_SINGLE_VALUE_ARRAYS` [CVE-2022-42003]
+
+2.13.4 (03-Sep-2022)
 
 #3275: JDK 16 Illegal reflective access for `Throwable.setCause()` with
   `PropertyNamingStrategy.UPPER_CAMEL_CASE`
  (reported by Jason H)
+ (fix suggested by gsinghlulu@github)
+#3565: `Arrays.asList()` value deserialization has changed from mutable to
+  immutable in 2.13
+ (reported by JonasWilms@github)
+#3582: Add check in `BeanDeserializer._deserializeFromArray()` to prevent
+  use of deeply nested arrays [CVE-2022-42004]
 
 2.13.3 (14-May-2022)
 
@@ -182,6 +289,13 @@ No changes since 2.13.2.1 but fixed Gradle Module Metadata ("module.json")
 - Extend handling of `FAIL_ON_NULL_FOR_PRIMITIVES` to cover coercion from (Empty) String
   via `AsNull`
 - Add `mvnw` wrapper
+
+2.12.7.1 (12-Oct-2022)
+
+#3582: Add check in `BeanDeserializer._deserializeFromArray()` to prevent
+  use of deeply nested arrays [CVE-2022-42004]
+#3590: Add check in primitive value deserializers to avoid deep wrapper array
+  nesting wrt `UNWRAP_SINGLE_VALUE_ARRAYS` [CVE-2022-42003]
 
 2.12.7 (26-May-2022)
 

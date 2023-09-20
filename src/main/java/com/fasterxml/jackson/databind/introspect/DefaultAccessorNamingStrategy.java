@@ -41,8 +41,13 @@ public class DefaultAccessorNamingStrategy
     protected final BaseNameValidator _baseNameValidator;
 
     protected final boolean _stdBeanNaming;
+    protected final boolean _isGettersNonBoolean;
 
     protected final String _getterPrefix;
+
+    /**
+     * @since 2.14
+     */
     protected final String _isGetterPrefix;
 
     /**
@@ -59,6 +64,7 @@ public class DefaultAccessorNamingStrategy
         _forClass = forClass;
 
         _stdBeanNaming = config.isEnabled(MapperFeature.USE_STD_BEAN_NAMING);
+        _isGettersNonBoolean = config.isEnabled(MapperFeature.ALLOW_IS_GETTERS_FOR_NON_BOOLEAN);
         _mutatorPrefix = mutatorPrefix;
         _getterPrefix = getterPrefix;
         _isGetterPrefix = isGetterPrefix;
@@ -70,7 +76,7 @@ public class DefaultAccessorNamingStrategy
     {
         if (_isGetterPrefix != null) {
             final Class<?> rt = am.getRawType();
-            if (rt == Boolean.class || rt == Boolean.TYPE) {
+            if (_isGettersNonBoolean || rt == Boolean.class || rt == Boolean.TYPE) {
                 if (name.startsWith(_isGetterPrefix)) {
                     return _stdBeanNaming
                             ? stdManglePropertyName(name, 2)

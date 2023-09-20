@@ -2,6 +2,7 @@ package com.fasterxml.jackson.databind.deser.std;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +11,8 @@ import com.fasterxml.jackson.core.*;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
+import com.fasterxml.jackson.databind.cfg.CoercionAction;
+import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 import com.fasterxml.jackson.databind.deser.NullValueProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
@@ -256,8 +259,7 @@ public class ObjectArrayDeserializer
                 return intoValue;
             }
             final int offset = intoValue.length;
-            Object[] result = new Object[offset + arr.length];
-            System.arraycopy(intoValue, 0, result, 0, offset);
+            Object[] result = Arrays.copyOf(intoValue, offset + arr.length);
             System.arraycopy(arr, 0, result, offset, arr.length);
             return result;
         }
@@ -350,10 +352,33 @@ public class ObjectArrayDeserializer
                 return _emptyValue;
             }
             value = _nullProvider.getNullValue(ctxt);
-        } else if (_elementTypeDeserializer == null) {
-            value = _elementDeserializer.deserialize(p, ctxt);
         } else {
-            value = _elementDeserializer.deserializeWithType(p, ctxt, _elementTypeDeserializer);
+            if (p.hasToken(JsonToken.VALUE_STRING)) {
+                String textValue = p.getText();
+                // https://github.com/FasterXML/jackson-dataformat-xml/issues/513
+                if (textValue.isEmpty()) {
+                    final CoercionAction act = ctxt.findCoercionAction(logicalType(), handledType(),
+                            CoercionInputShape.EmptyString);
+                    if (act != CoercionAction.Fail) {
+                        return (Object[]) _deserializeFromEmptyString(p, ctxt, act, handledType(),
+                                "empty String (\"\")");
+                    }
+                } else if (_isBlank(textValue)) {
+                    final CoercionAction act = ctxt.findCoercionFromBlankString(logicalType(), handledType(),
+                            CoercionAction.Fail);
+                    if (act != CoercionAction.Fail) {
+                        return (Object[]) _deserializeFromEmptyString(p, ctxt, act, handledType(),
+                                "blank String (all whitespace)");
+                    }
+                }
+                // if coercion failed, we can still add it to a list
+            }
+
+            if (_elementTypeDeserializer == null) {
+                value = _elementDeserializer.deserialize(p, ctxt);
+            } else {
+                value = _elementDeserializer.deserializeWithType(p, ctxt, _elementTypeDeserializer);
+            }
         }
         // Ok: bit tricky, since we may want T[], not just Object[]
         Object[] result;

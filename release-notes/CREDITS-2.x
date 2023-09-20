@@ -409,6 +409,12 @@ Jonas Konrad (yawkat@github)
   * Contributed #3417: Allow (de)serializing records using Bean(De)SerializerModifier
     even when reflection is unavailable
    (2.14.0)
+  * Contributed fix for #3655: `Enum` values can not be read from single-element array even
+    with `DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS`
+   (2.14.1)
+  * Contributed fix for #3655: `ObjectMapper` default heap consumption increased significantly
+    from 2.13.x to 2.14.0
+   (2.14.1)
 
 Jirka Kremser (Jiri-Kremser@github)
   * Suggested #924: SequenceWriter.writeAll() could accept Iterable
@@ -824,6 +830,9 @@ Carter Kozak (carterkozak@github)
    (2.12.0)
   * Contributed #2978: Fix failing `double` JsonCreators in jackson 2.12.0
    (2.12.1)
+  * Contributed #3624: Legacy `ALLOW_COERCION_OF_SCALARS` interacts poorly with Integer to
+   Float coercion
+   (2.14.0)
 
 Reinhard Prechtl (dnno@github)
   * Reported #2034: Serialization problem with type specialization of nested generic types
@@ -1445,6 +1454,14 @@ Jason Harper (jsharper@github)
    `PropertyNamingStrategy.UPPER_CAMEL_CASE`
   (2.13.4)
 
+Matthew Altman (matthew-altman@github)
+  * Reported #2541: Cannot merge polymorphic objects
+  (2.14.0)
+
+James Wang (jameswangz@github)
+  * Contributed fix for #2541: Cannot merge polymorphic objects
+  (2.14.0)
+
 ZeyuCai@github:
   * Contributed #3314: Four Flaky Tests Detected in 2.14
   (2.14.0)
@@ -1466,10 +1483,62 @@ Deniz Husaj (denizhusaj@github)
   * Reported #3447: Deeply nested JsonNode throws StackOverflowError for toString()
   (2.14.0)
 
-Matthew Altman (matthew-altman@github)
-  * Reported #2541: Cannot merge polymorphic objects
+PJ Fanning (pjfanning@github)
+  * Contributed #3475: Support use of fast double parse
+  (2.14.0)
+  * Contributed #3530: Change LRUMap to just evict one entry when maxEntries reached
+  (2.14.0)
+  * Contributed #3837: Set transformer factory attributes to improve protection against XXE
+  (2.14.3)
+
+Igor Shymko (ancane@github)
+  * Contributed #3500: Add optional explicit `JsonSubTypes` repeated names check
   (2.14.0)
 
-James Wang (jameswangz@github)
-  * Contributed fix for #2541: Cannot merge polymorphic objects
+Jordi Ortolá Ankum (Tomasito665@github)
+  * Contributed #3013: Allow disabling Integer to String coercion via `CoercionConfig`
   (2.14.0)
+  * Contributed #3503: `StdDeserializer` coerces ints to floats even if configured to fail
+  (2.14.0)
+  * Contributed #3613: Implement `float` and `boolean` to `String` coercion config
+  (2.14.0)
+
+Felix Vaughan (FelixVaughan01@github)
+  * Contributed #3212: Add method `ObjectMapper.copyWith(JsonFactory)`
+  (2.14.0)
+
+Arnaud Solé (Bluexin@github)
+  * Contributed #3505: Fix deduction deserializer with DefaultTypeResolverBuilder
+  (2.14.0)
+
+Richard Kwasnicki (Richie94@github)
+  * Contributed #3609: Allow non-boolean return type for "is-getters" with
+  `MapperFeature.ALLOW_IS_GETTERS_FOR_NON_BOOLEAN`
+  (2.14.0)
+
+Joachim Durchholz (toolforger@github)
+  * Requested #3633: Expose `translate()` method of standard `PropertyNamingStrategy`
+   implementations
+  (2.14.0)
+
+Andrej Mitrovic (AndrejMitrovic@github)
+  * Reported #3655: `Enum` values can not be read from single-element array even with
+    `DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS`
+  (2.14.1)
+
+Moritz Halbritter (mhalbritter@github)
+  * Reported #3665: `ObjectMapper` default heap consumption increased significantly
+    from 2.13.x to 2.14.0
+  (2.14.1)
+
+Philippe Marschall (marschall@github)
+  * Contributed #3699: Allow custom `JsonNode` implementations
+  (2.14.2)
+
+Gili Tzabari (cowwoc@github)
+  * Reported #3063: `@JsonValue` fails for Java Record
+  (2.14.2)
+
+Yury Molchan (yurkom@github)
+  * Contributed #4121: Preserve the original component type in merging to an array
+  (2.14.4)
